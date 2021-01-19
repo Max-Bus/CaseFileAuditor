@@ -13,3 +13,9 @@ def read_docx_text(filename, scrub_list=None):
     text = '\n'.join(paragraphs)
 
     return data
+
+# can be used to read .txt and .doc file extensions
+# other formats may return some sort of unicode
+def read_file_contexts(filename, scrub_list=None):
+    with open(filename, 'r') as file:
+        return file.read()
