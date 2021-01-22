@@ -3,6 +3,7 @@ import os
 
 import kivy
 import threading
+from tkinter.filedialog import askopenfilename
 from kivy.app import App
 from kivy.uix.label import Label
 from kivy.uix.button import Button
@@ -11,6 +12,7 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.filechooser import FileChooserListView, FileChooser
 from kivy.uix.textinput import TextInput
 from kivy.graphics import Color, Rectangle
+from kivy.lang import Builder
 
 class AuditorApp(App):
 
@@ -33,11 +35,16 @@ class AuditorView(GridLayout):
 
         self.input_selector = FileSelector("Select Input Path")
         self.add_widget(self.input_selector)
-        self.output_selector = FileSelector("Select Output Path")
-        self.add_widget(self.output_selector)
+
+        self.output_button = Button(text="Select Output Path", on_press=self.open_selector)
+        # self.output_selector = FileSelector("Select Output Path")
+        # self.add_widget(self.output_selector)
 
         self.progress_text = Label(text="")
         self.add_widget(self.progress_text)
+
+    def open_selector(self, instance):
+        pass
 
 class FileSelector(GridLayout):
 

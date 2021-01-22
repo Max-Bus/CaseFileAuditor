@@ -1,0 +1,24 @@
+{
+  "name": "CaseFileAuditor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Max-Bus/CaseFileAuditor.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Max-Bus/CaseFileAuditor/issues"
+  },
+  "homepage": "https://github.com/Max-Bus/CaseFileAuditor#readme",
+  "devDependencies": {
+    "electron": "^11.2.0"
+  }
+}
