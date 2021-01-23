@@ -1,7 +1,13 @@
 const {app, BrowserWindow} = require('electron')
 
 function createWindow () {
-    window = new BrowserWindow({width: 800, height: 600})
+    window = new BrowserWindow({
+        width: 800, 
+        height: 600, 
+        webPreferences: {
+            nodeIntegration: true, 
+            enableRemoteModule: true
+        }})
     window.loadFile('index.html')
 
     var python = require('child_process').spawn('python', ['./eletest.py']);
