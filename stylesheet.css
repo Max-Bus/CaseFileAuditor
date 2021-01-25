@@ -1,10 +1,36 @@
 button {
-  background-color: #4caf50;
+  background-color: #5d7adb;
   border: none;
-  color: white;
-  padding: 1% 2%;
+  color: #ffffff;
+  width: 30vh;
+  padding: 1vh 2vh;
+  margin: 1vh 2vh;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 100%;
+  font-family: "Trebuchet MS";
+  font-size: 3vh;
+  border-radius: 1vh;
+  transition-duration: 0.1s;
+  box-shadow: 0 0.5vh #304077;
+  outline: 0;
+}
+
+button:hover {
+  background-color: #7e96e6;
+}
+
+button:active {
+  transform: translateY(0.5vh);
+  box-shadow: 0 0 #304077;
+}
+
+body {
+  background-color: #222233;
+  color: #ffffff;
+  font-family: "Trebuchet MS";
+}
+
+div {
+  display: inline-block;
 }
