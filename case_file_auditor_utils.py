@@ -15,7 +15,7 @@ def read_docx_text(filename, scrub_list=None):
 
     text = '\n'.join(paragraphs)
 
-    return data
+    return text
 
 # can be used to read .txt and .doc file extensions
 # other formats may return some sort of unicode
@@ -28,16 +28,20 @@ def get_words_goodie_bag(folder_directory):
     for subdir, dirs, files in os.walk(folder_directory):
         for file in files:
             if re.search(r'.docx$', file):
-                bag += read_docx_text(file)
+                bag += read_docx_text(os.path.join(folder_directory, file))
 
             elif re.search(r'.txt$', file):
-                bag += read_file_contents(file)
+                bag += read_file_contents(os.path.join(folder_directory, file))
 
             elif re.search(r'.csv$', file):
-                df = pd.read_csv(file)
+                df = pd.read_csv(os.path.join(folder_directory, file))
 
                 # concat strings in matrix
                 text = ''.join([''.join(row) for row in df.values])
 
                 # add column names
                 text += ''.join(df.columns)
+
+                bag += text
+
+    return bag
