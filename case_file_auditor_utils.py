@@ -1,4 +1,4 @@
-import docx
+# import docx
 import os
 import re
 import pandas as pd
@@ -25,6 +25,7 @@ def read_file_contents(filename, scrub_list=None):
 
 def get_words_goodie_bag(folder_directory):
     bag = ''
+
     for subdir, dirs, files in os.walk(folder_directory):
         for file in files:
             if re.search(r'.docx$', file):

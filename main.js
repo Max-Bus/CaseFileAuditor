@@ -10,11 +10,6 @@ function createWindow () {
             enableRemoteModule: true
         }})
     window.loadFile('index.html')
-
-    var python = require('child_process').spawn('python', ['./eletest.py']);
-    python.stdout.on('data',function(data){
-        console.log("data: ",data.toString('utf8'));
-    });
 }
 
 app.on('ready', createWindow)

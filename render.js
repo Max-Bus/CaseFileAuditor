@@ -1,14 +1,17 @@
+const mainProcess = require('electron').remote.require('./main.js');
 const dialog = require('electron').remote.dialog;
-
-var inputPath, outputPath;
 
 const inputBtn = document.getElementById('inputBtn');
 const outputBtn = document.getElementById('outputBtn');
+const diagnosisBtn = document.getElementById('diagnosisBtn')
 const inputPathText = document.getElementById('inputPathText')
 const outputPathText = document.getElementById('outputPathText')
 
+var inputPath, outputPath;
+
 inputBtn.onclick = selectInput;
 outputBtn.onclick = selectOutput;
+diagnosisBtn.onclick = runDiagnosis;
 
 async function selectInput() {
     dialog.showOpenDialog(require('electron').remote.getCurrentWindow(), {
@@ -16,7 +19,7 @@ async function selectInput() {
         properties: ['openDirectory']
     }).then((data) => {
         inputPath = data.filePaths;
-        inputPathText.innerHTML = inputPath;
+        inputPathText.innerHTML = data.filePaths;
     });
 }
 
@@ -26,6 +29,13 @@ async function selectOutput() {
         properties: ['openDirectory']
     }).then((data) => {
         outputPath = data.filePaths;
-        outputPathText.innerHTML = outputPath;
+        outputPathText.innerHTML = data.filePaths;
+    });
+}
+
+async function runDiagnosis() {
+    var python = require('child_process').spawn('python', ['./eletest.py', inputPath]);
+    python.stdout.on('data',function(data){
+        console.log("data: ",data.toString('utf8'));
     });
 }
