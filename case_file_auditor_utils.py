@@ -1,4 +1,4 @@
-# import docx
+import docx
 import os
 import re
 import pandas as pd
@@ -29,13 +29,13 @@ def get_words_goodie_bag(folder_directory):
     for subdir, dirs, files in os.walk(folder_directory):
         for file in files:
             if re.search(r'.docx$', file):
-                bag += read_docx_text(os.path.join(folder_directory, file))
+                bag += read_docx_text(os.path.join(subdir, file))
 
             elif re.search(r'.txt$', file):
-                bag += read_file_contents(os.path.join(folder_directory, file))
+                bag += read_file_contents(os.path.join(subdir, file))
 
             elif re.search(r'.csv$', file):
-                df = pd.read_csv(os.path.join(folder_directory, file))
+                df = pd.read_csv(os.path.join(subdir, file))
 
                 # concat strings in matrix
                 text = ''.join([''.join(row) for row in df.values])
