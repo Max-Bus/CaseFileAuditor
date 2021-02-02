@@ -46,3 +46,27 @@ def get_words_goodie_bag(folder_directory):
                 bag += text
 
     return bag
+
+
+def folder_as_document_list(folder_directory):
+    documents = []
+    for subdir, dirs, files in os.walk(folder_directory):
+        for file in files:
+            if re.search(r'.docx$', file):
+                documents.append(read_docx_text(os.path.join(subdir, file)))
+
+            elif re.search(r'.txt$', file):
+                documents.append(read_file_contents(os.path.join(subdir, file)))
+
+            elif re.search(r'.csv$', file):
+                df = pd.read_csv(os.path.join(subdir, file))
+
+                # concat strings in matrix
+                text = ''.join([''.join(row) for row in df.values])
+
+                # add column names
+                text += ''.join(df.columns)
+
+                documents.append(text)
+
+    return documents
