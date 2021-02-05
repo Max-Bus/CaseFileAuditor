@@ -1,10 +1,14 @@
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.feature_extraction import text
+
 from sklearn.decomposition import TruncatedSVD
 from case_file_auditor_utils import *
 
 
 def extract_keywords(documents):
-    vectorizer = TfidfVectorizer(stop_words='english')
+    stop_words = text.ENGLISH_STOP_WORDS.union(["redacted"])
+
+    vectorizer = TfidfVectorizer(stop_words=stop_words)
     X = vectorizer.fit_transform(documents)
 
     # LSA
@@ -15,8 +19,8 @@ def extract_keywords(documents):
     terms = vectorizer.get_feature_names()
     concept_keywords = []
     for i, comp in enumerate(lsa.components_):
-        termp_importance_pairs = zip(terms, comp)
-        sorted_terms = sorted(termp_importance_pairs, key=lambda x: x[1], reverse=True)[:7]
+        term_importance_pairs = zip(terms, comp)
+        sorted_terms = sorted(term_importance_pairs, key=lambda x: x[1], reverse=True)[:7]
 
         ls = []
         for kwd in sorted_terms:
