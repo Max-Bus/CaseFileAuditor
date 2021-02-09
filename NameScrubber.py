@@ -9,6 +9,9 @@ import win32com.client as win32
 from win32com.client import constants
 from pandas import Timestamp
 from pandas import NaT
+from wordscrape import WordDocument
+import zipfile
+from lxml import etree
 # Create list of paths to .doc files
 rootdir = 'C:\\Users\\mkbcu\\OneDrive\\Desktop\\cases'
 months =["january","february","march","april","may","june","july","august","september","october","november","december","jan","feb","mar","apr","jun","aug","sep","sept","oct","nov","dec"]
@@ -68,19 +71,19 @@ for subdir, dirs, files in os.walk(rootdir):
                 person = name.split(",")
         print(os.path.join(subdir, file))
 
-
+        '''
         if re.search(r'\.xlsx$',file) or re.search(r'\.xls$',file): #excel file
             # Give the location of the file
             df = pd.read_excel(os.path.join(subdir, file))
             for col in df.columns:
                 for row in df.index.values:
-                    df[col][row] = regex(df[col][row])
+                    #df[col][row] = regex(df[col][row])
             df.to_csv(os.path.join(subdir, re.sub(r'\.xlsx?$','.csv',file)),index=False)
 
         if re.search(r'\.doc$',file):
             save_as_docx(os.path.join(subdir, file))
 
-
+        
         if re.search(r'\.txt$',file) or re.search(r'\.rtf$',file):
             text = ""
             with open(os.path.join(subdir, file), 'r') as readdoc:
@@ -88,15 +91,22 @@ for subdir, dirs, files in os.walk(rootdir):
 
             with open(os.path.join(subdir, file), 'w') as writedoc:
                 writedoc.write(text)
-
+        #'''
         if re.search(r'\.docx$',file):
             document = docx.Document(os.path.join(subdir, file))  # creating word reader object.
-
-            for pgh in document.paragraphs:
-                if(pgh.text == ""):
-                    print("check this file out")
+            for d in document.tables:
+                for i in range(len(d.rows)):
+                    for j in range(len(d.columns)):
+                        try:
+                            d.cell(i,j).text = regex(d.cell(i,j).text)
+                        except:
+                            print("cell failed to scrub")
+            #for pgh in document.paragraphs:
+                #print()
                 #pgh.text = regex(pgh.text)
 
             document.save(os.path.join(subdir, file))
 
 print(i)
+
+
