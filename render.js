@@ -34,7 +34,7 @@ async function selectOutput() {
 }
 
 async function runDiagnosis() {
-    var python = require('child_process').spawn('python', ['./eletest.py', inputPath]);
+    var python = require('child_process').spawn('python', ['./eletest.py', inputPath, outputPath]);
     python.stdout.on('data',function(data){
         console.log("data: ",data.toString('utf8'));
     });
