@@ -23,6 +23,7 @@ def read_file_contents(filename, scrub_list=None):
     with open(filename, 'r') as file:
         return file.read()
 
+# one big string of all text in folder
 def get_words_goodie_bag(folder_directory):
     bag = ''
 
@@ -38,7 +39,7 @@ def get_words_goodie_bag(folder_directory):
                 df = pd.read_csv(os.path.join(subdir, file))
 
                 # concat strings in matrix
-                text = ''.join([''.join(row) for row in df.values])
+                text = ' '.join([' '.join([str(element) for element in row]) for row in df.values])
 
                 # add column names
                 text += ''.join(df.columns)
@@ -62,7 +63,7 @@ def folder_as_document_list(folder_directory):
                 df = pd.read_csv(os.path.join(subdir, file))
 
                 # concat strings in matrix
-                text = ''.join([''.join(row) for row in df.values])
+                text = ' '.join([' '.join([str(element) for element in row]) for row in df.values])
 
                 # add column names
                 text += ''.join(df.columns)
