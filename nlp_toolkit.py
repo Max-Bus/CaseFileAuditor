@@ -1,14 +1,22 @@
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction import text
 
 from sklearn.decomposition import TruncatedSVD
 from case_file_auditor_utils import *
 
 
-def extract_keywords(documents):
+def extract_keywords(documents, method='tfidf'):
     stop_words = text.ENGLISH_STOP_WORDS.union(["redacted"])
 
-    vectorizer = TfidfVectorizer(stop_words=stop_words)
+    vectorizer = None
+
+    if method == 'tfidf':
+        vectorizer = TfidfVectorizer(stop_words=stop_words)
+
+    elif method == 'count':
+        vectorizer = CountVectorizer(stop_words=stop_words)
+
     X = vectorizer.fit_transform(documents)
 
     # LSA

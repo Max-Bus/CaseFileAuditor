@@ -27,6 +27,11 @@ try:
     with open(args[2] + '\prediction-test.txt', 'w') as file:
         for concept in extract_keywords(folder_as_document_list(args[1])):
             file.write(','.join(concept) + '\n')
+
+        file.write('\n')
+        for concept in extract_keywords(folder_as_document_list(args[1]), 'count'):
+            file.write(','.join(concept) + '\n')
+
 except Exception as e:
     # Just print(e) is cleaner and more likely what you want,
     # but if you insist on printing message specifically whenever possible...
