@@ -11,7 +11,7 @@ var inputPath, outputPath;
 
 inputBtn.onclick = selectInput;
 outputBtn.onclick = selectOutput;
-diagnosisBtn.onclick = runDiagnosis;
+diagnosisBtn.onclick = runDiagnosisDev;
 
 async function selectInput() {
     dialog.showOpenDialog(require('electron').remote.getCurrentWindow(), {
@@ -33,9 +33,31 @@ async function selectOutput() {
     });
 }
 
-async function runDiagnosis() {
-    var python = require('child_process').spawn('python', ['./eletest.py', inputPath, outputPath]);
+async function runDiagnosisDev() {
+    var python = require('child_process').spawn('python', ['./pyexe/eletest.py', inputPath, outputPath]);
     python.stdout.on('data',function(data){
         console.log("data: ",data.toString('utf8'));
+    });
+}
+
+async function runDiagnosisBuild() {
+    var child = require('child_process').execFile;
+    var deconstructedPath = __dirname.split("/");
+    var newPath = "";
+    for (var i = 0; i < deconstructedPath.length; i++) {
+        newPath += deconstructedPath[i] + "\\";
+    }
+    newPath += "eletest.exe";
+
+    console.log(__dirname);
+    console.log(newPath);
+
+    child(newPath, function(err, data) {
+        if(err){
+           console.error(err);
+           return;
+        }
+     
+        console.log(data.toString());
     });
 }
