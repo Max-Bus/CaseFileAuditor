@@ -42,9 +42,9 @@ async function runDiagnosisDev() {
 
 async function runDiagnosisBuild() {
     var child = require('child_process').execFile;
-    var deconstructedPath = __dirname.split("/");
+    var deconstructedPath = __dirname.split("\\");
     var newPath = "";
-    for (var i = 0; i < deconstructedPath.length; i++) {
+    for (var i = 0; i < deconstructedPath.length - 1; i++) {
         newPath += deconstructedPath[i] + "\\";
     }
     newPath += "eletest.exe";
@@ -52,7 +52,7 @@ async function runDiagnosisBuild() {
     console.log(__dirname);
     console.log(newPath);
 
-    child(newPath, function(err, data) {
+    child(newPath, [inputPath, outputPath], function(err, data) {
         if(err){
            console.error(err);
            return;
