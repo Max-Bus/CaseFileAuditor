@@ -4,7 +4,7 @@ function createWindow () {
     window = new BrowserWindow({
         width: 800, 
         height: 600,
-        icon: __dirname + '/cfalogo.ico',
+        icon: __dirname + '/cfalogo2.ico',
         webPreferences: {
             nodeIntegration: true, 
             enableRemoteModule: true
