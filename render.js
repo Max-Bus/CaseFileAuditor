@@ -6,6 +6,7 @@ const outputBtn = document.getElementById('outputBtn');
 const diagnosisBtn = document.getElementById('diagnosisBtn')
 const inputPathText = document.getElementById('inputPathText')
 const outputPathText = document.getElementById('outputPathText')
+const progressText = document.getElementById('progressText')
 
 var inputPath, outputPath;
 
@@ -20,6 +21,7 @@ async function selectInput() {
     }).then((data) => {
         inputPath = data.filePaths;
         inputPathText.innerHTML = data.filePaths;
+        progressText.innerHTML = "";
     });
 }
 
@@ -30,13 +32,16 @@ async function selectOutput() {
     }).then((data) => {
         outputPath = data.filePaths;
         outputPathText.innerHTML = data.filePaths;
+        progressText.innerHTML = "";
     });
 }
 
 async function runDiagnosisDev() {
+    progressText.innerHTML = "Diagnosing";
     var python = require('child_process').spawn('python', ['./pyexe/eletest.py', inputPath, outputPath]);
     python.stdout.on('data',function(data){
         console.log("data: ",data.toString('utf8'));
+        progressText.innerHTML = "Finished";
     });
 }
 
