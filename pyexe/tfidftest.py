@@ -1,18 +1,21 @@
 import pandas as pd
+import os
 from sklearn.feature_extraction.text import TfidfVectorizer
-from nlp_toolkit import *
-from case_file_auditor_utils import *
+from pyexe.nlp_toolkit import *
+from pyexe.case_file_auditor_utils import *
 import numpy as np
 
 
 # todo: generate list of paths to folders and put in 'other_docs'
 # compare all cases to all cases
-# folders = ['path stuff here' + str(i) for i in range(1, 30)]
-# other_docs = []
-# for dir in folders:
-#     docs = folder_as_document_list(dir)
-#     combined_docs = ' '.join(docs)
-#     other_docs.append(combined_docs)
+rootdir="C:\\Users\\mkbcu\\OneDrive\\Desktop\\cases"
+folders = [f.path for f in os.scandir(rootdir) if f.is_dir()]
+print (folders)
+other_docs = []
+for dir in folders:
+    docs = folder_as_document_list(dir)
+    combined_docs = ' '.join(docs)
+    other_docs.append(combined_docs)
 
 vectorizer = TfidfVectorizer(stop_words='english')
 tfidf_matrix = vectorizer.fit_transform(other_docs)

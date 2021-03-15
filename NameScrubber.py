@@ -79,10 +79,10 @@ for subdir, dirs, files in os.walk(rootdir):
                 for row in df.index.values:
                     #df[col][row] = regex(df[col][row])
             df.to_csv(os.path.join(subdir, re.sub(r'\.xlsx?$','.csv',file)),index=False)
-
+        '''
         if re.search(r'\.doc$',file):
             save_as_docx(os.path.join(subdir, file))
-
+        '''
         
         if re.search(r'\.txt$',file) or re.search(r'\.rtf$',file):
             text = ""
@@ -92,7 +92,7 @@ for subdir, dirs, files in os.walk(rootdir):
             with open(os.path.join(subdir, file), 'w') as writedoc:
                 writedoc.write(text)
         #'''
-        if re.search(r'\.docx$',file):
+        '''if re.search(r'\.docx$',file):
             document = docx.Document(os.path.join(subdir, file))  # creating word reader object.
             for d in document.tables:
                 for i in range(len(d.rows)):
@@ -105,7 +105,7 @@ for subdir, dirs, files in os.walk(rootdir):
                 #print()
                 #pgh.text = regex(pgh.text)
 
-            document.save(os.path.join(subdir, file))
+            document.save(os.path.join(subdir, file))'''
 
 print(i)
 

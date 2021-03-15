@@ -3,12 +3,17 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction import text
 
 from sklearn.decomposition import TruncatedSVD
-from case_file_auditor_utils import *
+from pyexe.case_file_auditor_utils import *
 
 
 def extract_keywords(documents, method='tfidf'):
-    stop_words = text.ENGLISH_STOP_WORDS.union(["redacted"])
-
+    nums = [f"{item}" for item in range(0, 2022)]
+    numbers=frozenset(nums)
+    with open("stop_words.txt", "r") as f:
+        no_no_words=f.read()
+        bad_words = frozenset(no_no_words.split())
+    bad_words= bad_words.union(numbers)
+    stop_words = text.ENGLISH_STOP_WORDS.union(bad_words)
     vectorizer = None
 
     if method == 'tfidf':
@@ -41,5 +46,5 @@ def extract_keywords(documents, method='tfidf'):
 
     return concept_keywords
 
-# documents = read_file_contents('test_folder/zang.txt').split('    ')
-# print(extract_keywords(documents=documents))
+#documents = read_file_contents('test_folder/zang.txt').split('    ')
+#print(extract_keywords(documents=documents))

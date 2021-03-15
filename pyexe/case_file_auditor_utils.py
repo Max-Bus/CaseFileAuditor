@@ -20,7 +20,7 @@ def read_docx_text(filename, scrub_list=None):
 # can be used to read .txt and .doc file extensions
 # other formats may return some sort of unicode
 def read_file_contents(filename, scrub_list=None):
-    with open(filename, 'r') as file:
+    with open(filename, 'r',encoding='utf-8') as file:
         return file.read()
 
 # one big string of all text in folder
@@ -32,8 +32,9 @@ def get_words_goodie_bag(folder_directory):
             if re.search(r'.docx$', file):
                 bag += read_docx_text(os.path.join(subdir, file))
 
-            elif re.search(r'.txt$', file):
+            elif re.search(r'.txt$',file):
                 bag += read_file_contents(os.path.join(subdir, file))
+
 
             elif re.search(r'.csv$', file):
                 df = pd.read_csv(os.path.join(subdir, file))
