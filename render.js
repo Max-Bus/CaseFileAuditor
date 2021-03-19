@@ -8,7 +8,8 @@ const inputPathText = document.getElementById('inputPathText')
 const outputPathText = document.getElementById('outputPathText')
 const progressText = document.getElementById('progressText')
 
-var inputPath, outputPath;
+var inputPath = "", outputPath = "";
+var currentlyDiagnosing = false;
 
 inputBtn.onclick = selectInput;
 outputBtn.onclick = selectOutput;
@@ -37,15 +38,32 @@ async function selectOutput() {
 }
 
 async function runDiagnosisDev() {
+    if (inputPath.length === 0 || outputPath.length === 0)
+        return;
+    if (currentlyDiagnosing)
+        return;
+
+    console.log("started diagnosis");
+    currentlyDiagnosing = true;
     progressText.innerHTML = "Diagnosing";
+
     var python = require('child_process').spawn('python', ['./pyexe/eletest.py', inputPath, outputPath]);
     python.stdout.on('data',function(data){
         console.log("data: ",data.toString('utf8'));
+        currentlyDiagnosing = false;
         progressText.innerHTML = "Finished";
     });
 }
 
 async function runDiagnosisBuild() {
+    if (inputPath.length === 0 || outputPath.length === 0)
+        return;
+    if (currentlyDiagnosing)
+        return;
+
+    currentlyDiagnosing = true;
+    progressText.innerHTML = "Diagnosing";
+
     var child = require('child_process').execFile;
     var deconstructedPath = __dirname.split("\\");
     var newPath = "";
@@ -64,5 +82,8 @@ async function runDiagnosisBuild() {
         }
      
         console.log(data.toString());
+
+        currentlyDiagnosing = false;
+        progressText.innerHTML = "Finished";
     });
 }

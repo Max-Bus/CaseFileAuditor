@@ -1,6 +1,6 @@
 import sys
-from pyexe.case_file_auditor_utils import *
-from pyexe.nlp_toolkit import *
+from case_file_auditor_utils import *
+from nlp_toolkit import *
 import os
 import time
 import traceback

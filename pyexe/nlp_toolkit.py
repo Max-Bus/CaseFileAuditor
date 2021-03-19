@@ -3,7 +3,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction import text
 
 from sklearn.decomposition import TruncatedSVD
-from pyexe.case_file_auditor_utils import *
+from case_file_auditor_utils import *
 
 
 def extract_keywords(documents, method='tfidf'):
