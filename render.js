@@ -10,6 +10,7 @@ const progressText = document.getElementById('progressText')
 
 var inputPath = "", outputPath = "";
 var currentlyDiagnosing = false;
+var numOfDots = 0;
 
 inputBtn.onclick = selectInput;
 outputBtn.onclick = selectOutput;
@@ -53,6 +54,8 @@ async function runDiagnosisDev() {
         currentlyDiagnosing = false;
         progressText.innerHTML = "Finished";
     });
+
+    diagnosisEllipses();
 }
 
 async function runDiagnosisBuild() {
@@ -86,4 +89,21 @@ async function runDiagnosisBuild() {
         currentlyDiagnosing = false;
         progressText.innerHTML = "Finished";
     });
+
+    diagnosisEllipses();
+}
+
+async function diagnosisEllipses () {
+    if (currentlyDiagnosing) {
+        if (numOfDots === 0) {
+            progressText.innerHTML = "Diagnosing";
+        } else {
+            progressText.innerHTML += ".";
+        }
+
+        numOfDots = (numOfDots + 1) % 4;
+        setTimeout(() => { diagnosisEllipses(); }, 500);
+    } else {
+        numOfDots = 0;
+    }
 }
