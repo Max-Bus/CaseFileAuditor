@@ -24,10 +24,14 @@ bad_words = bad_words.union(numbers)
 stop_words = text.ENGLISH_STOP_WORDS.union(bad_words)
 
 
-# todo: options include keeping union, intersection, or only keywords as regression features
+# todo: other options include keeping union, intersection, or only keywords as regression features
 
 
-# todo read in keywords from txt file (these will the columns / features for regression)
+# read in keywords from txt file (these will the columns / features for regression)
+keywords = []
+with open('../data/Key_Words.txt', 'r') as kwd_file:
+    for line in kwd_file.readlines():
+        keywords.append(line.strip())
 
 
 # todo get price values (y for regression)
@@ -50,5 +54,6 @@ for case in docs:
 # visualize with data frame
 df_X = pd.DataFrame(X, columns=keywords)
 df_X.index.name = 'case #'
+
 
 # todo use X and y for regression
