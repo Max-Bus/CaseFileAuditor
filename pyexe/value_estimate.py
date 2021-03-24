@@ -1,6 +1,8 @@
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction import text
+from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.linear_model import LinearRegression, Lasso
 from nlp_toolkit import *
 import os
 import numpy as np
@@ -57,3 +59,14 @@ df_X.index.name = 'case #'
 
 
 # todo use X and y for regression
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.4, random_state = 3054)
+reg = LinearRegression()
+cv_scores = cross_val_score(reg, X, y, cv=5)
+print("CV Scores: {}".format(cv_scores))
+print("CV Score Mean: {}".format(np.mean(cv_scores)))
+
+# use X and y for lasso
+lasso = Lasso(normalize = True, alpha = 0.1)
+lasso.fit(X_train, y_train)
+print("Lasso Coefs: {}".format(lasso.coef_))
+print("Lasso Scores: {}".format(lasso.score(X_test, y_test)))
