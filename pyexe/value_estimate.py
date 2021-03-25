@@ -30,14 +30,7 @@ stop_words = text.ENGLISH_STOP_WORDS.union(bad_words)
 # todo: other options include keeping union, intersection, or only keywords as regression features
 
 
-# read in keywords from txt file (these will the columns / features for regression)
-keywords = []
-with open('../data/Key_Words.txt', 'r') as kwd_file:
-    for line in kwd_file.readlines():
-        keywords.append(line.strip())
-
-
-# todo get price values (y for regression)
+# get price values (y for regression)
 y=[]
 with open('../data/settlements.txt') as f:
     vals = f.read().split("|")
@@ -45,30 +38,41 @@ with open('../data/settlements.txt') as f:
     y = [int(i.split("-")[1].strip()) for i in vals]
     y = np.asarray(y)
 
+
+# read in keywords from txt file (these will the columns / features for regression)
+keywords = []
+with open('../data/Key_Words.txt', 'r') as kwd_file:
+    for line in kwd_file.readlines():
+        keywords.append(line.strip())
+
 # assemble X for regression using the important as features (smallest # of features)
 X = []
-#vectorizer = TfidfVectorizer(stop_words=stop_words)
-#tfidf_matrix = vectorizer.fit_transform(docs)
-#tfidf_matrix = vectorizer.fit(case)
-#case_words = vectorizer.get_feature_names()
+
 for case in docs:
     data_row = []
     for kwd in keywords:
         data_row.append(1 if kwd in case else 0)
     X.append(data_row)
 
-# visualize with data frame
+# assemble X for regression using all words as features
+vectorizer = TfidfVectorizer(stop_words=stop_words, max_features=30000)
+
+# tfidf matrix
+X_all = vectorizer.fit_transform(docs)
+# tfidf_matrix = vectorizer.fit(case)
+case_words = vectorizer.get_feature_names()
+
+
+# visualize key words as features with dataframe
 df_X = pd.DataFrame(X, columns=keywords)
 df_X.index.name = 'case #'
 
 
-# todo use X and y for regression
-print(X)
-print(y)
-print(y.T)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.4, random_state = 3054)
+# use X and y for regression
+
+X_train, X_test, y_train, y_test = train_test_split(X_all, y, test_size = 0.4, random_state = 3054)
 reg = LinearRegression()
-cv_scores = cross_val_score(reg, X, y, cv=5)
+cv_scores = cross_val_score(reg, X_all, y, cv=5)
 print("CV Scores: {}".format(cv_scores))
 print("CV Score Mean: {}".format(np.mean(cv_scores)))
 
