@@ -3,7 +3,8 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction import text
 from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.linear_model import LinearRegression, Lasso
-from nlp_toolkit import *
+from pyexe.nlp_toolkit import *
+from pyexe.case_file_auditor_utils import *
 import os
 import numpy as np
 import pandas as pd
@@ -37,20 +38,23 @@ with open('../data/Key_Words.txt', 'r') as kwd_file:
 
 
 # todo get price values (y for regression)
-
+y=[]
+with open('../data/settlements.txt') as f:
+    vals = f.read().split("|")
+    print(vals)
+    y = [int(i.split("-")[1].strip()) for i in vals]
+    y = np.asarray(y)
 
 # assemble X for regression using the important as features (smallest # of features)
 X = []
+#vectorizer = TfidfVectorizer(stop_words=stop_words)
+#tfidf_matrix = vectorizer.fit_transform(docs)
+#tfidf_matrix = vectorizer.fit(case)
+#case_words = vectorizer.get_feature_names()
 for case in docs:
-    vectorizer = TfidfVectorizer(stop_words=stop_words)
-    # tfidf_matrix = vectorizer.fit_transform(case)
-    tfidf_matrix = vectorizer.fit(case)
-    case_words = vectorizer.get_feature_names()
     data_row = []
-
     for kwd in keywords:
-        data_row.append(1 if kwd in case_words else 0)
-
+        data_row.append(1 if kwd in case else 0)
     X.append(data_row)
 
 # visualize with data frame
@@ -59,6 +63,9 @@ df_X.index.name = 'case #'
 
 
 # todo use X and y for regression
+print(X)
+print(y)
+print(y.T)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.4, random_state = 3054)
 reg = LinearRegression()
 cv_scores = cross_val_score(reg, X, y, cv=5)
