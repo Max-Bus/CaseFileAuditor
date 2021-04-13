@@ -34,3 +34,13 @@ body {
 div {
   display: inline-block;
 }
+
+#diagnosisPreview {
+  background-color: #0f0f1a;
+  width: 90vw;
+  padding: 1vh 2vh;
+  margin: 1vh 2vh;
+  border-radius: 1vh;
+  font-family: "Courier New";
+  font-size: 3vh;
+}
