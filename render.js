@@ -3,10 +3,11 @@ const dialog = require('electron').remote.dialog;
 
 const inputBtn = document.getElementById('inputBtn');
 const outputBtn = document.getElementById('outputBtn');
-const diagnosisBtn = document.getElementById('diagnosisBtn')
-const inputPathText = document.getElementById('inputPathText')
-const outputPathText = document.getElementById('outputPathText')
-const progressText = document.getElementById('progressText')
+const diagnosisBtn = document.getElementById('diagnosisBtn');
+const inputPathText = document.getElementById('inputPathText');
+const outputPathText = document.getElementById('outputPathText');
+const progressText = document.getElementById('progressText');
+const diagnosisPreview = document.getElementById('diagnosisPreview');
 
 var inputPath = "", outputPath = "";
 var currentlyDiagnosing = false;
@@ -53,6 +54,7 @@ async function runDiagnosisDev() {
         console.log("data: ",data.toString('utf8'));
         currentlyDiagnosing = false;
         progressText.innerHTML = "Finished";
+        diagnosisPreview.innerHTML = data.toString('utf8');
     });
 
     diagnosisEllipses();
@@ -88,6 +90,7 @@ async function runDiagnosisBuild() {
 
         currentlyDiagnosing = false;
         progressText.innerHTML = "Finished";
+        diagnosisPreview.innerHTML = data.toString('utf8');
     });
 
     diagnosisEllipses();
