@@ -7,6 +7,7 @@ import traceback
 import re
 import pandas as pd
 import docx
+from sklearn.feature_extraction.text import CountVectorizer
 
 args = sys.argv
 
@@ -19,15 +20,6 @@ sys.stdout.flush()
 print("test 1")
 sys.stdout.flush()
 
-# time.sleep(5)
-
-print("test 2")
-
-# print(extract_keywords(folder_as_document_list(args[0])))
-# print(get_words_goodie_bag(args[0]))
-
-# instead of console, write contents to file
-
 # read in injury types from file
 possible_injuries = []
 with open('../data/injury-types.txt', 'r') as file:
@@ -37,36 +29,50 @@ with open('../data/injury-types.txt', 'r') as file:
         else:
             possible_injuries += categ
 
-# store injury words and their frequency to rank by importance
-potential_key_words = dict(zip(possible_injuries, [0 for i in range(len(possible_injuries))]))
+# read in additional stop words from file
+nums = [f"{item}" for item in range(0, 2022)]
+numbers = frozenset(nums)
+with open("stop_words.txt", "r") as f:
+    no_no_words = f.read()
+    bad_words = frozenset(no_no_words.split())
+bad_words = bad_words.union(numbers)
+stop_words = text.ENGLISH_STOP_WORDS.union(bad_words)
+
 
 # todo determine how to name the output file
 try:
     with open(args[2] + '\prediction-test.txt', 'w') as file:
         folder_doc_list = folder_as_document_list(args[1])
 
-        # look for injury type words and store counts
-        for docs in folder_doc_list:
-            docs = docs.lower()
-            for word in docs.split():
-                if word in possible_injuries:
-                    potential_key_words[word] = potential_key_words[word] + 1
-
+        # tfidf extracted keywords
         for concept in extract_keywords(folder_doc_list):
             file.write(','.join(concept) + '\n')
 
         file.write('\n')
+
+        # count extracted keywords
         for concept in extract_keywords(folder_doc_list, 'count'):
             file.write(','.join(concept) + '\n')
 
+        # **detect type of injury by comparing to list of injuries and document term frequencies**
+        vectorizer = CountVectorizer(stop_words=stop_words, max_features=10000)
 
-        file.write('\n')
-        file.write('The following words may describe and/or are related to the injury:\n')
+        # X is a list containing word frequencies
+        X = vectorizer.fit_transform([' '.join(folder_doc_list)]).toarray()[0]
+        term_freq_pairs = zip(vectorizer.get_feature_names(), X)
 
-        sorted_frequencies = {key : val for key, val in sorted(potential_key_words.items(), key=lambda item: item[1])}
-        for key, value in sorted_frequencies.items():
-            file.write(f'{key}: {value} occurrences\n')
+        # arrange pairs in descending frequency
+        term_freq_pairs = sorted(term_freq_pairs, key=lambda pair: pair[1], reverse=True)
 
+        # print out the detected injury words and their frequencies
+        file.write('\nThe following words may describe and/or are related to the injury:\n')
+        for word, freq in term_freq_pairs:
+            if word in possible_injuries:
+                file.write(f'{word:<25} ({freq:<3d} occurrences)\n')
+
+    # print file contents so that it can be put in mini display on console
+    with open(args[2] + '\prediction-test.txt', 'w') as file:
+        print(file.read())
 
 except Exception as e:
     # Just print(e) is cleaner and more likely what you want,
