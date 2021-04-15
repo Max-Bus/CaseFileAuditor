@@ -14,34 +14,37 @@ args = sys.argv
 # print(os.path.join(os.getcwd(), args[1]))
 # print(os.path.abspath(__file__))
 
-print(args[1])
-sys.stdout.flush()
+# print(args[1])
+# sys.stdout.flush()
 
-print("test 1")
-sys.stdout.flush()
+# print("test 1")
+# sys.stdout.flush()
 
 # read in injury types from file
-possible_injuries = []
-with open('../data/injury-types.txt', 'r') as file:
-    for line in file.readlines():
-        line = line.lower().strip()
-        if '|' in line:
-            possible_injuries += line.split('|')
-        else:
-            possible_injuries.append(line)
-
-
-# read in additional stop words from file
-nums = [f"{item}" for item in range(0, 2022)]
-numbers = frozenset(nums)
-with open("stop_words.txt", "r") as f:
-    no_no_words = f.read()
-    bad_words = frozenset(no_no_words.split())
-bad_words = bad_words.union(numbers)
-stop_words = text.ENGLISH_STOP_WORDS.union(bad_words)
-
-# todo determine how to name the output file
 try:
+    possible_injuries = []
+    with open('data/injury-types.txt', 'r') as file:
+        for line in file.readlines():
+            line = line.lower().strip()
+            if '|' in line:
+                possible_injuries += line.split('|')
+            else:
+                possible_injuries.append(line)
+
+    print('test2')
+    sys.stdout.flush()
+
+    # read in additional stop words from file
+    nums = [f"{item}" for item in range(0, 2022)]
+    numbers = frozenset(nums)
+    with open("stop_words.txt", "r") as f:
+        no_no_words = f.read()
+        bad_words = frozenset(no_no_words.split())
+    bad_words = bad_words.union(numbers)
+    stop_words = text.ENGLISH_STOP_WORDS.union(bad_words)
+
+    # todo determine how to name the output file
+
     with open(args[2] + '\prediction-test.txt', 'w') as file:
         folder_doc_list = folder_as_document_list(args[1])
 
