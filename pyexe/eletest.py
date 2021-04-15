@@ -23,11 +23,13 @@ sys.stdout.flush()
 # read in injury types from file
 possible_injuries = []
 with open('../data/injury-types.txt', 'r') as file:
-    for categ in file.read().lower().split(';'):
-        if '|' in categ:
-            possible_injuries += categ.split('|')
+    for line in file.readlines():
+        line = line.lower().strip()
+        if '|' in line:
+            possible_injuries += line.split('|')
         else:
-            possible_injuries += categ
+            possible_injuries.append(line)
+
 
 # read in additional stop words from file
 nums = [f"{item}" for item in range(0, 2022)]
@@ -37,7 +39,6 @@ with open("stop_words.txt", "r") as f:
     bad_words = frozenset(no_no_words.split())
 bad_words = bad_words.union(numbers)
 stop_words = text.ENGLISH_STOP_WORDS.union(bad_words)
-
 
 # todo determine how to name the output file
 try:
