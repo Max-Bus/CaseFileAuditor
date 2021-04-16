@@ -17,8 +17,8 @@ args = sys.argv
 # print(args[1])
 # sys.stdout.flush()
 
-# print("test 1")
-# sys.stdout.flush()
+print("test 1")
+sys.stdout.flush()
 
 # read in injury types from file
 try:
@@ -37,7 +37,7 @@ try:
     # read in additional stop words from file
     nums = [f"{item}" for item in range(0, 2022)]
     numbers = frozenset(nums)
-    with open("stop_words.txt", "r") as f:
+    with open("pyexe/stop_words.txt", "r") as f:
         no_no_words = f.read()
         bad_words = frozenset(no_no_words.split())
     bad_words = bad_words.union(numbers)
@@ -45,7 +45,7 @@ try:
 
     # todo determine how to name the output file
 
-    with open(args[2] + '\prediction-test.txt', 'w') as file:
+    with open(args[2] + '/prediction-test.txt', 'w') as file:
         folder_doc_list = folder_as_document_list(args[1])
 
         # tfidf extracted keywords
@@ -75,7 +75,7 @@ try:
                 file.write(f'{word:<25} ({freq:<3d} occurrences)\n')
 
     # print file contents so that it can be put in mini display on console
-    with open(args[2] + '\prediction-test.txt', 'w') as file:
+    with open(args[2] + '/prediction-test.txt', 'r') as file:
         print(file.read())
 
 except Exception as e:
