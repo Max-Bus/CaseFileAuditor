@@ -3,14 +3,14 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction import text
 
 from sklearn.decomposition import TruncatedSVD
-from pyexe.case_file_auditor_utils import *
+from case_file_auditor_utils import *
 
 
 def extract_keywords(documents, method='tfidf'):
     nums = [f"{item}" for item in range(0, 2022)]
     numbers=frozenset(nums)
-    with open("stop_words.txt", "r") as f:
-        no_no_words=f.read()
+    with open("pyexe/stop_words.txt", "r") as f:
+        no_no_words = f.read().lower()
         bad_words = frozenset(no_no_words.split())
     bad_words= bad_words.union(numbers)
     stop_words = text.ENGLISH_STOP_WORDS.union(bad_words)
