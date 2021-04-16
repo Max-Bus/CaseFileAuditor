@@ -76,7 +76,10 @@ try:
 
     # print file contents so that it can be put in mini display on console
     with open(args[2] + '/prediction-test.txt', 'r') as file:
-        print(file.read())
+        # print(file.read())
+        text = file.read().replace('\n', '<br>').replace(' ', '&nbsp;')
+        print(text)
+
 
 except Exception as e:
     # Just print(e) is cleaner and more likely what you want,
