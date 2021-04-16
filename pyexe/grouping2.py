@@ -24,13 +24,12 @@ def Injury(folder):
     nums = [f"{item}" for item in range(0, 2022)]
     numbers = frozenset(nums)
     with open("stop_words.txt", "r") as f:
-        no_no_words = f.read()
+        no_no_words = f.read().lower()
         bad_words = frozenset(no_no_words.split())
     bad_words = bad_words.union(numbers)
     stop_words = text.ENGLISH_STOP_WORDS.union(bad_words)
 
     folder_doc_list = folder_as_document_list(folder)
-
 
     # **detect type of injury by comparing to list of injuries and document term frequencies**
     vectorizer = CountVectorizer(stop_words=stop_words, max_features=10000)
