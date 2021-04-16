@@ -1,0 +1,6 @@
+deadly|fatal|dangerous|crippling|traumatizing|severe|serious|critical
+minor
+painful|excruciating
+accidental|intentional
+internal|external
+impaired

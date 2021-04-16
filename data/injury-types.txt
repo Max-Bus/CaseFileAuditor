@@ -8,10 +8,12 @@ Defamation|Libel|Slander
 Sprain|strain|tear
 Fracture
 Cut|lacerations|punctures
+dislocation
 Bruise|contusion
 Heat|burn
 Chemical|corrosion
-Amputation
+Amputation|Severed
 Carpal|tunnel|syndrome
 Tendonitis
 Soreness|pain
+stenosis
