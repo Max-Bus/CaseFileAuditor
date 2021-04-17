@@ -46,7 +46,6 @@ async function selectOutput() {
             diagnosisBtn.disabled = true;
         else
             diagnosisBtn.disabled = false;
-
     });
 }
 
