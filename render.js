@@ -25,6 +25,11 @@ async function selectInput() {
         inputPath = data.filePaths;
         inputPathText.innerHTML = data.filePaths;
         progressText.innerHTML = "";
+
+        if (inputPath.length === 0 || outputPath.length === 0)
+            diagnosisBtn.disabled = true;
+        else
+            diagnosisBtn.disabled = false;
     });
 }
 
@@ -36,6 +41,12 @@ async function selectOutput() {
         outputPath = data.filePaths;
         outputPathText.innerHTML = data.filePaths;
         progressText.innerHTML = "";
+
+        if (inputPath.length === 0 || outputPath.length === 0)
+            diagnosisBtn.disabled = true;
+        else
+            diagnosisBtn.disabled = false;
+
     });
 }
 
