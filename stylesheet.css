@@ -25,6 +25,12 @@ button:active {
   box-shadow: 0 0 #304077;
 }
 
+button:disabled {
+  background-color: #304077;
+  transform: translateY(0.5vh);
+  box-shadow: 0 0 #304077;
+}
+
 body {
   background-color: #222233;
   color: #ffffff;
