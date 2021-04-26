@@ -37,6 +37,10 @@ body {
   font-family: "Trebuchet MS";
 }
 
+a {
+  color: #5d7adb;
+}
+
 div {
   display: inline-block;
 }
