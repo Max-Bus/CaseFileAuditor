@@ -54,3 +54,7 @@ div {
   font-family: "Courier New";
   font-size: 3vh;
 }
+
+.specialText {
+  color: #5d7adb !important;
+}
