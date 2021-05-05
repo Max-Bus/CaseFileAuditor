@@ -52,6 +52,7 @@ def get_words_goodie_bag(folder_directory):
 
 def folder_as_document_list(folder_directory):
     documents = []
+    pdfs = []
     for subdir, dirs, files in os.walk(folder_directory):
         for file in files:
             if re.search(r'.docx$', file):
@@ -71,4 +72,7 @@ def folder_as_document_list(folder_directory):
 
                 documents.append(text)
 
-    return documents
+            elif re.search(r'.pdf$', file):
+                pdfs.append(file)
+
+    return documents, pdfs

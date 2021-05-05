@@ -66,7 +66,7 @@ try:
 
     # todo determine how to name the output file
     with open(args[2] + '/prediction-test.txt', 'w') as file:
-        folder_doc_list = folder_as_document_list(args[1])
+        folder_doc_list, pdf_list = folder_as_document_list(args[1])
 
         # tfidf extracted keywords
         for concept in extract_keywords(folder_doc_list):
