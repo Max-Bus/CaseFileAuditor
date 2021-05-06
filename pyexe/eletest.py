@@ -78,6 +78,12 @@ try:
         for concept in extract_keywords(folder_doc_list, 'count'):
             file.write(','.join(concept) + '\n')
 
+        if (len(pdf_list) > 0):
+            file.write("pdf files are not supported by this program. here are the files that were overlooked:\n")
+            for pdf in pdf_list:
+                file.write(pdf + "\n")
+            file.write('\n')
+
         # ****************************************************************************************
         # **detect type of injury by comparing to list of injuries and document term frequencies**
         # ****************************************************************************************
