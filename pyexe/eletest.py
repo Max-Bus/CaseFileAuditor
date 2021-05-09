@@ -8,6 +8,7 @@ import re
 import pandas as pd
 import docx
 from sklearn.feature_extraction.text import CountVectorizer
+import numpy as np
 
 args = sys.argv
 
@@ -64,30 +65,39 @@ try:
     bad_words = bad_words.union(numbers)
     stop_words = text.ENGLISH_STOP_WORDS.union(bad_words)
 
+    # read in words for case value estimate, and the weights for prediction
+    features = []
+    with open('pyexe/features.txt', 'r') as file:
+        features = file.read().strip().split(',')
+
+    weights = []
+    with open('pyexe/weights.txt', 'r') as file:
+        weights = file.read().strip().split(',')
+    weights = [float(w) for w in weights]
+
+
     # todo determine how to name the output file
     with open(args[2] + '/prediction-test.txt', 'w') as file:
         folder_doc_list, pdf_list = folder_as_document_list(args[1])
 
-        # tfidf extracted keywords
-        for concept in extract_keywords(folder_doc_list):
-            file.write(', '.join(concept) + '\n')
-
-        file.write('\n')
-
-        # count extracted keywords
-        for concept in extract_keywords(folder_doc_list, 'count'):
-            file.write(','.join(concept) + '\n')
-
+        # check for unsupported (pdf files)
         if (len(pdf_list) > 0):
             file.write("pdf files are not supported by this program. here are the files that were overlooked:\n")
             for pdf in pdf_list:
                 file.write(pdf + "\n")
             file.write('\n')
 
-        # ****************************************************************************************
-        # **detect type of injury by comparing to list of injuries and document term frequencies**
-        # ****************************************************************************************
+        # # tfidf extracted keywords
+        # for concept in extract_keywords(folder_doc_list):
+        #     file.write(', '.join(concept) + '\n')
+        #
+        # file.write('\n')
+        #
+        # # count extracted keywords
+        # for concept in extract_keywords(folder_doc_list, 'count'):
+        #     file.write(','.join(concept) + '\n')
 
+        # find keywords and their frequencies
         vectorizer = CountVectorizer(stop_words=stop_words, max_features=10000)
 
         # X is a list containing word frequencies
@@ -96,6 +106,33 @@ try:
 
         # arrange pairs in descending frequency
         term_freq_pairs = sorted(term_freq_pairs, key=lambda pair: pair[1], reverse=True)
+
+        # ****************************************************************************************
+        # ***********************************case value estimate**********************************
+        # ****************************************************************************************
+
+        # find frequencies of regression feature words
+        frequencies_for_regression = []
+        for feat in features:
+            feature_found = False
+            for pair in term_freq_pairs:
+                if feat == pair[0]:
+                    feature_found = True
+                    frequencies_for_regression.append(pair[1])
+                    break
+
+            if not feature_found:
+                frequencies_for_regression.append(0)
+
+        file.write('Based on the words found to be important\n')
+        file.write('to the case, it is estimated to be worth:\n')
+
+        value = np.dot(weights, frequencies_for_regression)
+        file.write(f'$ {value:.2f}\n\n')
+
+        # ****************************************************************************************
+        # **detect type of injury by comparing to list of injuries and document term frequencies**
+        # ****************************************************************************************
 
         # print out the detected injury words and their frequencies
         file.write('\nwords potentially related to the injury:\n')

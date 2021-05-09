@@ -1,7 +1,7 @@
 hospital|hospitalized
 EMG|Electromyography
 MRI|Magnetic|resonance|imaging
-CT|CAT|Computed|tomography
+CT|CAT|tomography
 echocardiograms|electrocardiograms
 bronchoscopy
 PT|therapy
