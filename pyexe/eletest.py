@@ -75,6 +75,18 @@ try:
         weights = file.read().strip().split(',')
     weights = [float(w) for w in weights]
 
+    scaled_weights = []
+    with open('pyexe/scaled-weights.txt', 'r') as file:
+        scaled_weights = file.read().strip().split(',')
+    scaled_weights = [float(w) for w in scaled_weights]
+
+    # load mean and stddev to unscale value output
+    mean, stddev = None, None
+    with open('pyexe/value-mean-stddev.txt', 'r') as file:
+        text = file.read().strip().split(',')
+        mean = float(text[0])
+        stddev = float(text[1])
+
 
     # todo determine how to name the output file
     with open(args[2] + '/prediction-test.txt', 'w') as file:
@@ -127,7 +139,12 @@ try:
         file.write('Based on the words found to be important\n')
         file.write('to the case, it is estimated to be worth:\n')
 
+        # using unscaled
         value = np.dot(weights, frequencies_for_regression)
+        file.write(f'$ {value:.2f}\n\n')
+
+        # using scaled
+        value = mean + stddev * np.dot(scaled_weights, np.concatenate(([1], frequencies_for_regression)))
         file.write(f'$ {value:.2f}\n\n')
 
         # ****************************************************************************************
