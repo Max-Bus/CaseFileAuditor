@@ -18,9 +18,6 @@ args = sys.argv
 # print(args[1])
 # sys.stdout.flush()
 
-print("test 1")
-sys.stdout.flush()
-
 # read in injury types from file
 try:
     # read in injury words
@@ -53,8 +50,6 @@ try:
             else:
                 injury_adjectives.append(line)
 
-    print('test2')
-    sys.stdout.flush()
 
     # read in additional stop words from file
     nums = [f"{item}" for item in range(0, 2022)]
@@ -124,6 +119,7 @@ try:
         # ****************************************************************************************
 
         # find frequencies of regression feature words
+        """
         frequencies_for_regression = []
         for feat in features:
             feature_found = False
@@ -146,6 +142,7 @@ try:
         # using scaled
         value = mean + stddev * np.dot(scaled_weights, np.concatenate(([1], frequencies_for_regression)))
         file.write(f'$ {value:.2f}\n\n')
+        """
 
         # ****************************************************************************************
         # **detect type of injury by comparing to list of injuries and document term frequencies**
