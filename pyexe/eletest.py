@@ -61,6 +61,7 @@ try:
     stop_words = text.ENGLISH_STOP_WORDS.union(bad_words)
 
     # read in words for case value estimate, and the weights for prediction
+    """
     features = []
     with open('pyexe/features.txt', 'r') as file:
         features = file.read().strip().split(',')
@@ -74,13 +75,16 @@ try:
     with open('pyexe/scaled-weights.txt', 'r') as file:
         scaled_weights = file.read().strip().split(',')
     scaled_weights = [float(w) for w in scaled_weights]
+    """
 
     # load mean and stddev to unscale value output
+    """
     mean, stddev = None, None
     with open('pyexe/value-mean-stddev.txt', 'r') as file:
         text = file.read().strip().split(',')
         mean = float(text[0])
         stddev = float(text[1])
+    """
 
 
     # todo determine how to name the output file
