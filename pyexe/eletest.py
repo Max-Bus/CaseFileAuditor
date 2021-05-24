@@ -61,20 +61,22 @@ try:
     stop_words = text.ENGLISH_STOP_WORDS.union(bad_words)
 
     # read in words for case value estimate, and the weights for prediction
-    """
+
     features = []
-    with open('pyexe/features.txt', 'r') as file:
+    with open('pyexe/lasso-features.txt', 'r') as file:
         features = file.read().strip().split(',')
 
+
+    scaled_weights = []
+    with open('pyexe/lasso-scaled-weights.txt', 'r') as file:
+        scaled_weights = file.read().strip().split(',')
+    scaled_weights = [float(w) for w in scaled_weights]
+
+    """
     weights = []
     with open('pyexe/weights.txt', 'r') as file:
         weights = file.read().strip().split(',')
     weights = [float(w) for w in weights]
-
-    scaled_weights = []
-    with open('pyexe/scaled-weights.txt', 'r') as file:
-        scaled_weights = file.read().strip().split(',')
-    scaled_weights = [float(w) for w in scaled_weights]
     """
 
     # load mean and stddev to unscale value output
@@ -123,7 +125,7 @@ try:
         # ****************************************************************************************
 
         # find frequencies of regression feature words
-        """
+
         frequencies_for_regression = []
         for feat in features:
             feature_found = False
@@ -139,6 +141,10 @@ try:
         file.write('Based on the words found to be important\n')
         file.write('to the case, it is estimated to be worth:\n')
 
+        value = np.dot(scaled_weights, frequencies_for_regression)
+        file.write(f'$ {value:.2f}\n\n')
+
+        """
         # using unscaled
         value = np.dot(weights, frequencies_for_regression)
         file.write(f'$ {value:.2f}\n\n')
