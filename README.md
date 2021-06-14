@@ -4,7 +4,7 @@ Computer Science Capstone Project by Maximo Bustillo, Vignesh Nethrapalli, and A
 
 **Installation**
 ---
-Download and unpack **dist.zip**. Enter **win-unpacked** and open **CaseFileAuditor.exe**. As of right now, the app is only compatible with Windows.
+Download and unpack **dist.zip** [Here](https://bergenorg-my.sharepoint.com/:u:/g/personal/antsir21_bergen_org/ERp88cn5hlFItOwGgEB74egBGinKZKvsHez_nUnYWlFYzA). Enter **win-unpacked** and open **CaseFileAuditor.exe**. As of right now, the app is only compatible with Windows.
 
 **How to Use**
 ---
